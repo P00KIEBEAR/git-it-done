@@ -3,6 +3,26 @@ var userFormEl = document.querySelector("#user-form");
 var nameInputEl = document.querySelector("#username");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
+var queryString = document.location.search;
+var repoName = queryString.split("=")[1];
+console.log(repoName);
+var repoNameEl = document.querySelector("#repo-name");
+
+var getRepoName = function () {
+  // grab repo name from url query string
+  var queryString = document.location.search;
+  var repoName = queryString.split("=")[1];
+
+  if (repoName) {
+    // display repo name on the page
+    repoNameEl.textContent = repoName;
+
+    getRepoIssues(repoName);
+  } else {
+    // if no repo was given, redirect to the homepage
+    document.location.replace("./index.html");
+  }
+};
 
 
 var getUserRepos = function (user) {
@@ -53,12 +73,17 @@ var displayRepos = function (repos, searchTerm) {
   repoSearchTerm.textContent = searchTerm;
   // loop over repos
   for (var i = 0; i < repos.length; i++) {
+
+    // create a container for each repo
     // format repo name
     var repoName = repos[i].owner.login + "/" + repos[i].name;
 
     // create a container for each repo
-    var repoEl = document.createElement("div");
+    // create a link for each repo
+    var repoEl = document.createElement("a");
     repoEl.classList = "list-item flex-row justify-space-between align-center";
+    repoEl.setAttribute("href", "./single-repo.html?repo=" + repoName);
+    // create a span element to hold repository name
 
     // create a span element to hold repository name
     var titleEl = document.createElement("span");
