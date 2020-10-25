@@ -7,6 +7,8 @@ var queryString = document.location.search;
 var repoName = queryString.split("=")[1];
 console.log(repoName);
 var repoNameEl = document.querySelector("#repo-name");
+var languageButtonsEl = document.createElement("div")
+languageButtonsEl.id('language-buttons')
 
 var getRepoName = function () {
   // grab repo name from url query string
@@ -109,6 +111,17 @@ var displayRepos = function (repos, searchTerm) {
     repoContainerEl.appendChild(repoEl);
   }
 };
+var buttonClickHandler = function (event) {
+  var language = event.target.getAttribute("data-language");
+  console.log(language);
+  if (language) {
+    getFeaturedRepos(language);
+
+    // clear old content
+    repoContainerEl.textContent = "";
+  }
+}
 userFormEl.addEventListener("submit", formSubmitHandler);
+languageButtonsEl.addEventListener("click", buttonClickHandler);
 
 

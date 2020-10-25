@@ -21,8 +21,22 @@ var getRepoIssues = function (repo) {
       // if not successful, redirect to homepage
       document.location.replace("./index.html");
     }
+
   });
 
+  var getFeaturedRepos = function (language) {
+    var apiUrl = "https://api.github.com/search/repositories?q=" + language + "+is:featured&sort=help-wanted-issues";
+
+    fetch(apiUrl).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          displayRepos(data.items, language);
+        });
+      } else {
+        alert("Error: " + response.statusText);
+      }
+    });
+  };
   var displayIssues = function (issues) {
     if (issues.length === 0) {
       issueContainerEl.textContent = "This repo has no open issues!";
